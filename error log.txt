@@ -1,0 +1,73 @@
+"C:\Program Files\Python311\python.exe" "D:\CODE\Проекты\Guess my number\Guess my number.py" 
+
+    Welcome to "Guess my number" game!
+    In this game I think of a number and you try to guess it.
+    Then I will be guessing your number. We count attempts. The lesser - wins!
+    Or we can switch it vice versa.
+
+    Who would you like to be guessing first?
+
+    Type "1" for: - You think, I guess!
+    Type "2" for: - Try to guess what's on my mind!
+    
+
+2
+
+Just "1" or "2", come on! That's not too difficult!	
+
+Ok, let's set the high limit. We'll be guessing from 1 to what?	
+2
+
+            Please choose difficulty level:
+            1 - for "dumbass" (uses no logic, just random guesses)
+            2 - for "hither and thither" (knows how to do it, but sometimes forgets)
+            3 - for "Dr. Nerd" (will guess your number in 1 tries)
+            
+1
+Dumbass: Ready with your number? Press "enter" and I start guessing...
+Attempt: 1
+Dumbass: You think of the number 2? (type "y" or "n" for answer)
+n
+Dumbass: is your number higher or lower than 2? Type "+" if your number is higher or "-" if your number is lower
+-
+Attempt: 2
+Dumbass: You think of the number 1? (type "y" or "n" for answer)
+n
+Dumbass: is your number higher or lower than 1? Type "+" if your number is higher or "-" if your number is lower
++
+Traceback (most recent call last):
+  File "D:\CODE\Проекты\Guess my number\Guess my number.py", line 213, in <module>
+    main()
+  File "D:\CODE\Проекты\Guess my number\Guess my number.py", line 211, in main
+    comp_guesses_number(level, limit)
+  File "D:\CODE\Проекты\Guess my number\Guess my number.py", line 43, in comp_guesses_number
+    guess = randrange(start + 1, end)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\random.py", line 345, in randrange
+Attempt: 3
+    raise ValueError("empty range for randrange() (%d, %d, %d)" % (istart, istop, width))
+ValueError: empty range for randrange() (2, 2, 0)
+
+Process finished with exit code 1
+
+###################################################################################################
+The error occurs since this particular case does not coinside with conditions causing error:
+
+        if (start == end or (end - start == 1 and end != lmt) or
+                            (end - start == 1 and answer == '-')):
+
+Here we have:
+I 	guess==2	start==0	end==2+1
+	"-"		start==0	end=2
+II	guess==1	start==0	end==2
+	"+"		start=1	end==2
+
+... since error conditions aren't hit it goes for another while iteration and tries to choose
+ a random number between "1" and "1":
+
+ 		guess = randrange(start + 1, end)
+
+WAYS TO FIX: 
+1) Rework error conditions and split them to "+" and "-" cases
+2) Make computer stop guessing if there is just one possible number left
+###################################################################################################
